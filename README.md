@@ -12,12 +12,10 @@ File paths are saved in `uploads` but they are not currently persistent as we un
 
 ## Testing the API
 
-First run `npm i` to install the dependencies and libraries used.
+First run `npm i` and then `node index.js` before loading localhost from frontend repo.
 
 - Testing via Postman
-1. Run `node index.js` to run the Express server. 
-2. Choose `POST` method with URL as `http://localhost:3001/process-chat-logs`.
-3. Upload .txt files into Body > form-data.
-4. Name key as `chatlog` true to the way function code was written. 
+1. Choose `POST` method with URL as `http://localhost:3001/process-chat-logs`.
+2. Upload .txt files into Body > form-data.
+3. Name key as `chatlog` true to the way function code was written. 
 
-- Testing via unit test script

@@ -52,7 +52,7 @@ app.post("/process-chat-logs", upload.array("chatlog"), async (req, res) => {
     }
 
     const topUsers = getTopUsers(data, k);
-    res.json({ message: "Successfully processed chat logs", topUsers });
+    res.json(topUsers);
   } catch (error) {
     console.error("Error processing chat logs:", error);
     res.status(500).send("Error processing file");

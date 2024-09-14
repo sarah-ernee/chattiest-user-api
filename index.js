@@ -24,19 +24,31 @@ app.post("/process-chat-logs", upload.array("chatlog"), async (req, res) => {
   if (!req.files.every((file) => file.mimetype === "text/plain")) {
     return res
       .status(400)
-      .send("Invalid file format received");
+      .send("Invalid file type. Only .txt files are allowed.");
   }
 
   // Default to showing top 10 if client does not specify k
   const k = parseInt(req.body.k) || 10;
 
   try {
-    let data = {};
-    for (const file of req.files) {
-      const fileWordCounts = await processChatLog(file.path);
-      data = mergeWordCounts(data, fileWordCounts);
+    let data;
 
-      await fs.unlink(file.path);
+    // If client sends one file only
+    if (req.files.length === 1) {
+      data = await processChatLog(req.files[0].path);
+
+      await fs.unlink(req.files[0].path);
+    }
+
+    // If client sends multiple files
+    else {
+      data = {};
+      for (const file of req.files) {
+        const fileWordCounts = await processChatLog(file.path);
+        data = mergeWordCounts(data, fileWordCounts);
+
+        await fs.unlink(file.path);
+      }
     }
 
     const topUsers = getTopUsers(data, k);
